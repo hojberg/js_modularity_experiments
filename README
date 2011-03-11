@@ -1,0 +1,9 @@
+Unit Testing and MVP for Swipely Frontend
+
+In order to properly unit test the Swipely JavaScript code we need to cut our code into smalller contained pieces. To do so we have been looking at YUI’s sandboxing and module dependency model.
+
+We are going to use YUI and divide our code into “Modules”, “Presenters” and “Models”. Modules are bigger pieces of code that bridge together several Presenters and Models.
+Presenters handle Model event updates and propagates that to the DOM. Models are Data close business logic that knows nothing about the DOM.
+
+Each of these pieces should be testable separately and combined.
+
