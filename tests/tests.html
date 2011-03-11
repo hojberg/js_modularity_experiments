@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+
+<html>
+
+  <head>
+    <title></title>
+
+    <script src="http://yui.yahooapis.com/3.2.0pr2/build/simpleyui/simpleyui-min.js"></script>
+
+    <!-- load models -->
+    <script src="../js/models/user.js"></script>
+    <script src="../js/models/friend.js"></script>
+
+    <!-- load presenters -->
+    <script src="../js/presenters/friends_presenter.js"></script>
+
+    <!-- load modules -->
+    <script src="../js/modules/inviter.js"></script>
+
+    <script>
+      YUI().use("test", "base", "friend_model", "user_model", "friends_presenter", "inviter", function (Y) {
+
+        /* --------------- MODELS TESTS --------------- */
+        var modelsSuite = new Y.Test.Suite({
+          name: "Models Test Suite",
+          setUp: function () {},
+          tearDown: function () {}
+        });
+
+        modelsSuite.add(new Y.Test.Case({
+       
+          name: "Friends model tests",
+        
+          setUp: function () {
+            this.currentUser = new Y.User({});
+          },
+       
+          tearDown: function () {
+            delete this.currentUser;
+          },
+
+          /* Tests -------------------------- */
+          "should return array of uninvited friends": function () {
+            Y.Friend.allUninvitedByUser(this.currentUser, function (friends) {
+
+              Y.Assert.isArray(friends, "'friends' should be an array");
+              Y.Assert.isInstanceOf(Y.Friend, friends[0], "'friends' contents should be Friend objects");
+
+            });
+          }
+       
+        }));
+
+        /* --------------- PRESENTERS TESTS --------------- */
+        var presentersSuite = new Y.Test.Suite({
+          name: "Presenters Test Suite",
+          setUp: function () {},
+          tearDown: function () {
+            Y.one("#dom_hook").setContent("");
+          }
+        });
+
+        presentersSuite.add(new Y.Test.Case({
+       
+          name: "Friends presenter tests",
+        
+          setUp: function () {
+            this.currentUser = new Y.User({});
+            this.friendsPresenter = new Y.FriendsPresenter();
+
+            Y.one("#dom_hook").setContent("<ul id='imported_friends'></ul>");
+          },
+       
+          tearDown: function () {
+            delete this.currentUser;
+            delete this.friendsPresenter;
+          },
+
+          /* Tests -------------------------- */
+          "should show uninvited friends in DOM": function () {
+            this.friendsPresenter.showUninvited("#imported_friends", this.currentUser);
+
+            this.wait(function () {
+
+              var list = Y.one("#imported_friends");
+              Y.Assert.areEqual(4, list.get("children").size(), "Should have 4 children");
+
+            }, 1000);
+          }
+            
+        }));
+
+        Y.Test.Runner.add(modelsSuite);        
+        Y.Test.Runner.add(presentersSuite);        
+        Y.Test.Runner.run();
+
+      });
+    </script>
+  </head>
+
+  <body>
+
+    <div id="dom_hook"></div>
+
+  </body>
+
+</html>
+

@@ -7,3 +7,6 @@ Presenters handle Model event updates and propagates that to the DOM. Models are
 
 Each of these pieces should be testable separately and combined.
 
+==================================================================
+
+This small application shows how an inviter page would be structured and the tests associated with it.

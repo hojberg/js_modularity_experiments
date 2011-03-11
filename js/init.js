@@ -1,5 +1,5 @@
-YUI().use("users", function (Y) {
+YUI({debug: true, filter: "debug"}).use("inviter", function (Y) {
 
-  Y.Users.init();
+  Y.Inviter.init();
 
 });
